@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>自用算日期</title>
+  </head>
+  <style type="text/css">
+    body {
+      background-color: #f7f7f7;
+
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    #container {
+      margin: auto;
+      position: relative;
+      padding: 0;
+      text-align: center;
+      width: 100%;
+      max-width: 750px;
+      font-family: '微軟正黑體', '新細明體';
+      font-size: 14pt;
+    }
+  </style>
+  自用無廣告算日期網頁<br />
+  數入要計算的日期A（西元年/月/日）<br />
+  A
+  <input
+    name="date1"
+    type="date"
+    class="formc1"
+    id="date1"
+    value=""
+  /><br /><br />
+  數入要計算的日期B（西元年/月/日）<br />
+  B<input
+    name="date2"
+    type="date"
+    class="formc1"
+    id="date2"
+    value=""
+  /><br /><br />
+  <input
+    type="button"
+    class="formc2"
+    onclick="calculate();saveComplexData()"
+    value="點此計算A-B"
+  /><br /><br />
+  A.相隔為<input
+    name="date3"
+    type="text"
+    class="formc3b"
+    id="date3"
+    value=""
+  />天 (超過24H為一天)
+  <br />
+  B.相隔為<input name="date4" type="text" class="formc3b" id="date4" value="" />
+  (含第一天)
+  <script type="text/javascript">
+    function calculate() {
+      var date1 = document.getElementById('date1').value;
+      var date2 = document.getElementById('date2').value;
+      date1 = date1.split('-');
+
+      var year = date1[0];
+      var month = date1[1];
+      var day = date1[2];
+      date1 = new Date(year, month - 1, day);
+      date2 = date2.split('-');
+      year = date2[0];
+      month = date2[1];
+      day = date2[2];
+      date2 = new Date(year, month - 1, day);
+      var diff = days_between(date1, date2);
+      document.getElementById('date3').value = diff + '天';
+      document.getElementById('date4').value = diff + 1 + '天內';
+    }
+
+    function days_between(date1, date2) {
+      var ONE_DAY = 1000 * 60 * 60 * 24;
+
+      var date1_ms = date1.getTime();
+      var date2_ms = date2.getTime();
+
+      var difference_ms = Math.abs(date1_ms - date2_ms);
+
+      return Math.round(difference_ms / ONE_DAY);
+    }
+    function saveComplexData() {
+      var personObject = new Object();
+      personObject.stdiy = date1.value;
+      personObject.stdiy2 = date2.value;
+
+      localStorage.setItem('person', JSON.stringify(personObject));
+    }
+  </script>
+</html>
