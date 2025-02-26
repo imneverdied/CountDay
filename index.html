@@ -2,60 +2,218 @@
   <head>
     <meta charset="utf-8" />
     <title>自用算日期</title>
+    <!-- 響應式設計 Viewport 設定 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <style type="text/css">
     body {
-      background-color: #f7f7f7;
-
-      text-align: center;
-      padding-top: 20px;
+      background-color: #f0f2f5;
+      font-family: 'Noto Sans TC', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     #container {
-      margin: auto;
-      position: relative;
-      padding: 0;
+      background-color: #fff;
+      padding: 30px; /* 稍微減少一些 padding 在大螢幕 */
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
       text-align: center;
-      width: 100%;
-      max-width: 750px;
-      font-family: '微軟正黑體', '新細明體';
-      font-size: 14pt;
+      width: 95%; /* 容器寬度改為百分比 */
+      max-width: 750px; /* 最大寬度維持不變 */
+      font-size: 16px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #777;
+      font-weight: bold;
+    }
+
+    input[type='date'],
+    input[type='text'] {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: calc(100% - 30px); /* 輸入框寬度使用 calc 調整，考慮左右 padding */
+      max-width: 300px;
+      margin: 0 auto;
+      display: block;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    input[type='button'] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      width: auto; /* 按鈕寬度自動 */
+      min-width: 150px; /* 按鈕最小寬度 */
+    }
+
+    input[type='button']:hover {
+      background-color: #0056b3;
+    }
+
+    .result-group {
+      margin-top: 30px;
+    }
+
+    .result-group input[type='text'] {
+      background-color: #f0f0f0;
+      border: none;
+      text-align: center;
+      max-width: 150px;
+      margin-top: 5px;
+      width: 100%; /* 結果輸入框寬度也改為 100% */
+      box-sizing: border-box;
+    }
+
+    /* **媒體查詢：針對小螢幕裝置** */
+    @media screen and (max-width: 768px) {
+      body {
+        padding: 10px; /* 小螢幕時 body padding 減少 */
+      }
+
+      #container {
+        padding: 20px; /* 小螢幕時 container padding 減少 */
+        font-size: 15px; /* 小螢幕時字體稍微縮小 */
+      }
+
+      h1 {
+        font-size: 1.5em; /* 標題字體稍微縮小 */
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-size: 1em; /* 段落字體稍微縮小 */
+        margin-bottom: 10px;
+      }
+
+      input[type='date'],
+      input[type='text'],
+      input[type='button'] {
+        font-size: 15px; /* 輸入框和按鈕字體稍微縮小 */
+        padding: 10px 12px; /* 輸入框和按鈕 padding 稍微縮小 */
+      }
+
+      .result-group {
+        margin-top: 20px; /* 小螢幕時結果區塊上方間距減少 */
+      }
+    }
+
+    /* 更小的螢幕 (例如手機) */
+    @media screen and (max-width: 480px) {
+      #container {
+        padding: 15px; /* 更小螢幕時 container padding 再減少 */
+        font-size: 14px; /* 更小螢幕時字體再縮小 */
+      }
+
+      h1 {
+        font-size: 1.3em; /* 標題字體再縮小 */
+      }
+
+      p {
+        font-size: 0.9em; /* 段落字體再縮小 */
+      }
+
+      input[type='date'],
+      input[type='text'],
+      input[type='button'] {
+        font-size: 14px; /* 輸入框和按鈕字體再縮小 */
+        padding: 8px 10px; /* 輸入框和按鈕 padding 再縮小 */
+      }
     }
   </style>
-  自用無廣告算日期網頁<br />
-  數入要計算的日期A（西元年/月/日）<br />
-  A
-  <input
-    name="date1"
-    type="date"
-    class="formc1"
-    id="date1"
-    value=""
-  /><br /><br />
-  數入要計算的日期B（西元年/月/日）<br />
-  B<input
-    name="date2"
-    type="date"
-    class="formc1"
-    id="date2"
-    value=""
-  /><br /><br />
-  <input
-    type="button"
-    class="formc2"
-    onclick="calculate();saveComplexData()"
-    value="點此計算A-B"
-  /><br /><br />
-  A.相隔為<input
-    name="date3"
-    type="text"
-    class="formc3b"
-    id="date3"
-    value=""
-  />天 (超過24H為一天)
-  <br />
-  B.相隔為<input name="date4" type="text" class="formc3b" id="date4" value="" />
-  (含第一天)
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <div id="container">
+    <h1>自用無廣告算日期網頁</h1>
+    <p>輸入要計算的日期 A 和日期 B（西元年/月/日）</p>
+
+    <div class="form-group">
+      <label for="date1">日期 A：</label>
+      <input
+        name="date1"
+        type="date"
+        class="formc1"
+        id="date1"
+        value=""
+      /><br />
+    </div>
+
+    <div class="form-group">
+      <label for="date2">日期 B：</label>
+      <input
+        name="date2"
+        type="date"
+        class="formc1"
+        id="date2"
+        value=""
+      /><br />
+    </div>
+
+    <div class="form-group">
+      <input
+        type="button"
+        class="formc2"
+        onclick="calculate();saveComplexData()"
+        value="點此計算 A-B"
+      /><br />
+    </div>
+
+    <div class="result-group">
+      <p>A. 相隔為</p>
+      <input
+        name="date3"
+        type="text"
+        class="formc3b"
+        id="date3"
+        value=""
+        readonly
+      />天 (超過 24H 為一天)
+      <br />
+    </div>
+    <div class="result-group">
+      <p>B. 相隔為</p>
+      <input
+        name="date4"
+        type="text"
+        class="formc3b"
+        id="date4"
+        value=""
+        readonly
+      />
+      (含第一天)
+    </div>
+  </div>
   <script type="text/javascript">
     function calculate() {
       var date1 = document.getElementById('date1').value;
@@ -72,8 +230,8 @@
       day = date2[2];
       date2 = new Date(year, month - 1, day);
       var diff = days_between(date1, date2);
-      document.getElementById('date3').value = diff + '天';
-      document.getElementById('date4').value = diff + 1 + '天內';
+      document.getElementById('date3').value = diff + ' 天';
+      document.getElementById('date4').value = diff + 1 + ' 天內';
     }
 
     function days_between(date1, date2) {
